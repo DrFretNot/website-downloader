@@ -10,37 +10,69 @@ const keywords = 'website download,HTML to Markdown,web archiving,offline readin
       <main class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="grid grid-cols-1 lg:grid-cols-6 gap-8 mt-8">
             <!-- 左侧面板：下载选项 -->
+            <!-- Left Panel: Download Options -->
             <div id="download" class="col-span-4 space-y-8">
                 <div class="">
                     <!-- URL输入卡片 -->
+                    <!-- URL Input Card -->
                     <div class="col-span-3 bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 fade-in">
                         <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
                             <i class="fas fa-link text-primary-500 mr-3"></i>
                             Website Download
                         </h2>
                         
-                        <div class="grid grid-cols-10 gap-3">
-                            <div class="col-span-4 mb-6">
-                                <label class="text-md font-semibold block text-gray-700 dark:text-gray-300">Download Options</label>
-                                <div class="grid grid-cols-2 gap-4 mt-3">
-                                    <div class="flex items-center justify-center download-option checked border-2 border-gray-200 dark:border-gray-700 rounded-lg p-2 text-center cursor-pointer">
-                                        <i class="fas fa-file-alt text-2xl text-primary-500 mr-2"></i>
-                                        <p class="font-medium">Single Page</p>
-                                    </div>
-                                    <div class="flex items-center justify-center download-option border-2 border-gray-200 dark:border-gray-700 rounded-lg p-2 text-center cursor-pointer">
-                                        <i class="fas fa-globe text-2xl text-primary-500 mr-2"></i>
-                                        <p class="font-medium">Whole Site</p>
-                                    </div>
+                        <div class="mb-6">
+                            <label class="text-md font-semibold block text-gray-700 dark:text-gray-300 mb-3">Download Options</label>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div class="flex items-center justify-center download-option checked border-2 border-gray-200 dark:border-gray-700 rounded-lg p-3 text-center cursor-pointer" data-option="single">
+                                    <i class="fas fa-file-alt text-2xl text-primary-500 mr-2"></i>
+                                    <p class="font-medium">Single Page</p>
+                                </div>
+                                <div class="flex items-center justify-center download-option border-2 border-gray-200 dark:border-gray-700 rounded-lg p-3 text-center cursor-pointer" data-option="site">
+                                    <i class="fas fa-globe text-2xl text-primary-500 mr-2"></i>
+                                    <p class="font-medium">Whole Site</p>
+                                </div>
+                                <div class="flex items-center justify-center download-option border-2 border-gray-200 dark:border-gray-700 rounded-lg p-3 text-center cursor-pointer" data-option="batch">
+                                    <i class="fas fa-list text-2xl text-primary-500 mr-2"></i>
+                                    <p class="font-medium">Batch URLs</p>
                                 </div>
                             </div>
-                            <div class="col-span-6 mb-6">
-                                <label for="website-url" class="text-md font-semibold block text-gray-700 dark:text-gray-300">Website URL</label>
-                                <div class="flex mt-3">
-                                    <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-sm">
-                                        https://
-                                    </span>
-                                    <input type="text" id="website-url" class="border flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-primary-500 focus:border-primary-500" placeholder="example.com">
-                                </div>
+                        </div>
+                        
+                        <!-- Single/Site URL Input -->
+                        <div id="single-url-input" class="mb-6">
+                            <label for="website-url" class="text-md font-semibold block text-gray-700 dark:text-gray-300">Website URL</label>
+                            <div class="flex mt-3">
+                                <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-sm">
+                                    https://
+                                </span>
+                                <input type="text" id="website-url" class="border flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-primary-500 focus:border-primary-500" placeholder="example.com">
+                            </div>
+                        </div>
+                        
+                        <!-- Batch URLs Input -->
+                        <div id="batch-urls-input" class="mb-6 hidden">
+                            <label for="batch-urls" class="text-md font-semibold block text-gray-700 dark:text-gray-300 mb-2">
+                                Multiple URLs (one per line, up to 50)
+                            </label>
+                            <textarea 
+                                id="batch-urls" 
+                                rows="8" 
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md focus:ring-primary-500 focus:border-primary-500 font-mono text-sm" 
+                                placeholder="https://example.com/page1&#10;https://example.com/page2&#10;https://another-site.com/article&#10;..."></textarea>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                                Enter one URL per line. URLs can be from different websites.
+                            </p>
+                        </div>
+                        
+                        <!-- Progress Bar (for batch downloads) -->
+                        <div id="batch-progress" class="mb-4 hidden">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Download Progress</span>
+                                <span id="progress-text" class="text-sm text-gray-500 dark:text-gray-400">0 / 0</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                                <div id="progress-bar" class="bg-primary-500 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
                             </div>
                         </div>
 
@@ -53,6 +85,7 @@ const keywords = 'website download,HTML to Markdown,web archiving,offline readin
                 
                 
                 <!-- 已下载文件卡片 -->
+                <!-- Downloaded Files Card -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-50 fade-in">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
@@ -69,6 +102,7 @@ const keywords = 'website download,HTML to Markdown,web archiving,offline readin
                     </div>
 
                     <!-- 文件操作 -->
+                    <!-- File Operations -->
                     <div id="convert" class="bg-white dark:bg-gray-800 fade-in">
                         <label class="text-md font-semibold block text-gray-700 dark:text-gray-300 mt-6 mb-2">
                             File Operations
@@ -92,8 +126,10 @@ const keywords = 'website download,HTML to Markdown,web archiving,offline readin
             </div>
             
             <!-- 右侧面板：URL输入和转换选项 -->
+            <!-- Right Panel: URL Input and Conversion Options -->
             <div class="col-span-2 space-y-8">
                 <!-- 功能特性 -->
+                <!-- Features -->
                 <div id="features" class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 fade-in">
                     <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
                         <i class="fas fa-star text-primary-500 mr-3"></i>
@@ -138,15 +174,33 @@ const keywords = 'website download,HTML to Markdown,web archiving,offline readin
 </Layout>
 
 <script>
+    // Handle download option selection
     const downloadOptions = document.querySelectorAll('.download-option');
+    const singleUrlInput = document.getElementById('single-url-input');
+    const batchUrlsInput = document.getElementById('batch-urls-input');
+    const batchProgress = document.getElementById('batch-progress');
+    
     downloadOptions.forEach(option => {
         option.addEventListener('click', () => {
             downloadOptions.forEach(opt => opt.classList.remove('checked'));
             option.classList.add('checked');
+            
+            const selectedOption = option.getAttribute('data-option');
+            
+            // Show/hide appropriate inputs
+            if (selectedOption === 'batch') {
+                singleUrlInput.classList.add('hidden');
+                batchUrlsInput.classList.remove('hidden');
+            } else {
+                singleUrlInput.classList.remove('hidden');
+                batchUrlsInput.classList.add('hidden');
+                batchProgress.classList.add('hidden');
+            }
         });
     });
 
 // 初始化IndexedDB
+// Initialize IndexedDB
 const initDB = () => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open('WebsiteDownloaderDB', 1);
@@ -169,6 +223,7 @@ const initDB = () => {
 };
 
 // 清空IndexedDB
+// Clear IndexedDB
 const clearDB = async () => {
   const db = await initDB();
   return new Promise((resolve, reject) => {
@@ -187,6 +242,7 @@ const clearDB = async () => {
 };
 
 // 保存文件到IndexedDB
+// Save file to IndexedDB
 const saveToDB = async (url: any, content: any) => {
   const db = await initDB();
   return new Promise((resolve, reject) => {
@@ -211,16 +267,20 @@ const saveToDB = async (url: any, content: any) => {
     
     request.onsuccess = () => {
       resolve();
-      updateFileList();
+      // Update file list asynchronously (don't block)
+      updateFileList().catch(err => console.error('Failed to update file list:', err));
     };
     
     request.onerror = () => {
+      // 保存到数据库失败
+      // Failed to save to database
       reject('保存到数据库失败');
     };
   });
 };
 
 // 更新文件列表显示
+// Update file list display
 const updateFileList = async () => {
   const db = await initDB();
   return new Promise((resolve, reject) => {
@@ -238,6 +298,7 @@ const updateFileList = async () => {
       }
       
       // 更新HTML文件计数
+      // Update HTML file count
       document.getElementById('downloadCount').textContent = htmlFiles.length;
       
       fileListElement.innerHTML = files.map(file => `
@@ -266,6 +327,8 @@ const updateFileList = async () => {
     };
     
     request.onerror = () => {
+      // 获取文件列表失败
+      // Failed to get file list
       reject('获取文件列表失败');
     };
   });
@@ -273,6 +336,7 @@ const updateFileList = async () => {
 
 
 // 更新文件列表显示
+// Check if file exists
 const checkExist = async (url: any) => {
   const db = await initDB();
   return new Promise((resolve, reject) => {
@@ -288,66 +352,89 @@ const checkExist = async (url: any) => {
     };
     
     request.onerror = () => {
+      // 失败
+      // Failed
       reject('失败');
     };
   });
 };
 
 // 递归下载页面及其链接
+// Recursively download page and its links
 const crawlPage = async (url: any, visitedUrls = new Set(), depth = 0, maxDepth = 1, downloadedCount = 0, retryCount = 0) => {
   // 检查URL是否已存在于数据库中
+  // Check if URL already exists in database
 
   // 检查URL是否已存在
+  // Check if URL already exists
+  // Check if URL already exists
   const exists = await checkExist(url);
-  console.log('检查结果:', exists); // 打印检查结果
+  // console.log('检查结果:', exists); // 打印检查结果
+  console.log('Check result:', exists); // Print check result
   if (exists) {
-    console.log(`URL ${url} 已存在，跳过下载`);
+    // console.log(`URL ${url} 已存在，跳过下载`);
+    console.log(`URL ${url} already exists, skipping download`);
     return;
   }
   
   if (visitedUrls.has(url) || depth > maxDepth || downloadedCount >= 5) {
     if (downloadedCount >= 5) {
-      alert('已达到最大下载数量5个页面');
+      // 已达到最大下载数量5个页面
+      // Reached maximum download limit of 5 pages
+      alert('Reached maximum download limit of 5 pages');
     }
     return;
   }
   
   visitedUrls.add(url);
-  console.log(`正在下载: ${url}`);
+  // console.log(`正在下载: ${url}`);
+  console.log(`Downloading: ${url}`);
 
   try {
     const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
     const response = await fetch(proxyUrl);
-    if (!response.ok) throw new Error(`HTTP错误: ${response.status}`);
+    // HTTP错误
+    // HTTP error
+    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
     
     const data = await response.json();
-    if (!data.contents) throw new Error('无法获取网页内容');
+    // 无法获取网页内容
+    // Unable to get webpage content
+    if (!data.contents) throw new Error('Unable to get webpage content');
     
     // 重置重试计数器
+    // Reset retry counter
     retryCount = 0;
     
     // 保存当前页面
+    // Save current page
     await saveToDB(url, data.contents);
     downloadedCount++;
     document.getElementById('downloadCount').textContent = downloadedCount;
     
     if (downloadedCount >= 5) {
-      alert('已达到最大下载数量5个页面');
+      // 已达到最大下载数量5个页面
+      // Reached maximum download limit of 5 pages
+      alert('Reached maximum download limit of 5 pages');
       return;
     }
     
     // 解析HTML提取链接
+    // Parse HTML to extract links
     const parser = new DOMParser();
     const doc = parser.parseFromString(data.contents, 'text/html');
     const links = Array.from(doc.querySelectorAll('a[href]'));
     
     // 过滤并处理相对链接
+    // Filter and process relative links
     const baseUrl = new URL(url);
-    console.log('当前页面URL:', baseUrl); // 打印当前页面URL
+    // console.log('当前页面URL:', baseUrl); // 打印当前页面URL
+    console.log('Current page URL:', baseUrl); // Print current page URL
     const pageLinks = links
       .map(link => {
         try {
-          console.log('原始链接:', link.pathname); // 打印原始链接
+          // console.log('原始链接:', link.pathname); // 打印原始链接
+          console.log('Original link:', link.pathname); // Print original link
           return url + link.pathname;
         } catch {
           return null;
@@ -356,21 +443,27 @@ const crawlPage = async (url: any, visitedUrls = new Set(), depth = 0, maxDepth 
       // .filter(href => href && href.startsWith(baseUrl.origin));
     
     // 递归下载链接页面
+    // Recursively download linked pages
     for (const link of pageLinks) {
-      console.log('处理后的链接:', link); // 打印处理后的链接
+      // console.log('处理后的链接:', link); // 打印处理后的链接
+      console.log('Processed link:', link); // Print processed link
       await crawlPage(link, visitedUrls, depth + 1, maxDepth, downloadedCount);
     }
   } catch (error) {
-    console.error(`下载页面 ${url} 失败:`, error);
+    // console.error(`下载页面 ${url} 失败:`, error);
+    console.error(`Failed to download page ${url}:`, error);
     
     // 重试逻辑
+    // Retry logic
     if (retryCount < 3) {
       retryCount++;
-      console.log(`下载失败，将在3秒后重试(第${retryCount}次)`);
+      // console.log(`下载失败，将在3秒后重试(第${retryCount}次)`);
+      console.log(`Download failed, will retry in 3 seconds (attempt ${retryCount})`);
       await new Promise(resolve => setTimeout(resolve, 3000));
       return crawlPage(url, visitedUrls, depth, maxDepth, downloadedCount, retryCount);
     } else {
-      console.error(`页面 ${url} 下载失败，已达到最大重试次数`);
+      // console.error(`页面 ${url} 下载失败，已达到最大重试次数`);
+      console.error(`Page ${url} download failed, reached maximum retry count`);
     }
   }
 };
@@ -382,58 +475,248 @@ function removeTrailingSlash(url: any) {
     try {
         const urlObj = new URL(url);
         // 处理路径末尾斜杠
+        // Handle trailing slashes in path
         urlObj.pathname = urlObj.pathname.replace(/\/+$/, '');
         // 根路径特殊处理
+        // Special handling for root path
         if (urlObj.pathname === '' && urlObj.search === '' && urlObj.hash === '') {
             return urlObj.origin;
         }
         return urlObj.toString();
     } catch (e) {
         // 处理无效URL或相对路径（谨慎使用）
+        // Handle invalid URL or relative path (use with caution)
         return url.replace(/\/+$/, '');
     }
 }
 
+// Parse URLs from textarea input
+function parseBatchUrls(text: string): string[] {
+  const lines = text.split('\n')
+    .map(line => line.trim())
+    .filter(line => line.length > 0);
+  
+  const urls: string[] = [];
+  for (const line of lines) {
+    try {
+      // Try to create URL object to validate
+      let url = line;
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        url = 'https://' + url;
+      }
+      const urlObj = new URL(url);
+      urls.push(removeTrailingSlash(urlObj.toString()));
+    } catch (e) {
+      console.warn(`Invalid URL skipped: ${line}`);
+    }
+  }
+  
+  return urls;
+}
+
+// Download a single URL (used by batch download)
+async function downloadSingleUrl(url: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    // Check if URL already exists
+    const exists = await checkExist(url);
+    if (exists) {
+      return { success: false, error: 'Already exists' };
+    }
+    
+    // Normalize URL
+    let normalizedUrl = url;
+    if (!normalizedUrl.startsWith('http://') && !normalizedUrl.startsWith('https://')) {
+      normalizedUrl = 'https://' + normalizedUrl;
+    }
+    normalizedUrl = removeTrailingSlash(normalizedUrl);
+    
+    // Fetch via proxy
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(normalizedUrl)}`;
+    const response = await fetch(proxyUrl);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    
+    const data = await response.json();
+    if (!data.contents) {
+      throw new Error('No content received');
+    }
+    
+    // Save to database
+    await saveToDB(normalizedUrl, data.contents);
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message || 'Unknown error' };
+  }
+}
+
+// Batch download function
+async function downloadBatchUrls(urls: string[], btn: any) {
+  const maxUrls = 50; // Limit to 50 URLs
+  const urlsToDownload = urls.slice(0, maxUrls);
+  
+  if (urls.length > maxUrls) {
+    alert(`Too many URLs. Only the first ${maxUrls} will be downloaded.`);
+  }
+  
+  if (urlsToDownload.length === 0) {
+    alert('No valid URLs found. Please enter at least one URL.');
+    return;
+  }
+  
+  // Show progress bar
+  batchProgress.classList.remove('hidden');
+  const progressBar = document.getElementById('progress-bar');
+  const progressText = document.getElementById('progress-text');
+  
+  btn.disabled = true;
+  const originalText = btn.textContent;
+  btn.textContent = 'Downloading...';
+  
+  let successCount = 0;
+  let failCount = 0;
+  const failedUrls: string[] = [];
+  
+  // Download URLs sequentially to avoid overwhelming the proxy
+  for (let i = 0; i < urlsToDownload.length; i++) {
+    const url = urlsToDownload[i];
+    
+    // Download with retry
+    let retries = 3;
+    let result = { success: false, error: '' };
+    
+    while (retries > 0 && !result.success) {
+      result = await downloadSingleUrl(url);
+      if (!result.success && retries > 1) {
+        await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds before retry
+      }
+      retries--;
+    }
+    
+    if (result.success) {
+      successCount++;
+    } else {
+      failCount++;
+      failedUrls.push(url);
+      console.error(`Failed to download: ${url} - ${result.error}`);
+    }
+    
+    // Update progress AFTER download completes
+    const progress = ((i + 1) / urlsToDownload.length) * 100;
+    if (progressBar) progressBar.style.width = `${progress}%`;
+    if (progressText) progressText.textContent = `${i + 1} / ${urlsToDownload.length}`;
+    
+    // Update file list after each successful download
+    if (result.success) {
+      await updateFileList();
+    }
+    
+    // Small delay between downloads to be respectful to the proxy
+    if (i < urlsToDownload.length - 1) {
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
+  }
+  
+  // Final update of file list
+  await updateFileList();
+  
+  // Hide progress bar
+  batchProgress.classList.add('hidden');
+  
+  // Restore button
+  btn.disabled = false;
+  btn.textContent = originalText;
+  
+  // Show results
+  let message = `Download complete!\n\nSuccess: ${successCount}\nFailed: ${failCount}`;
+  if (failedUrls.length > 0 && failedUrls.length <= 10) {
+    message += `\n\nFailed URLs:\n${failedUrls.join('\n')}`;
+  } else if (failedUrls.length > 10) {
+    message += `\n\n${failedUrls.length} URLs failed (check console for details)`;
+  }
+  alert(message);
+}
+
 async function handleDownload(btn: any, retryCount = 1) {
-  const urlInput = document.querySelector('input[type="text"]');
+  // Get selected download option
+  const selectedOption = document.querySelector('.download-option.checked')?.getAttribute('data-option');
+  
+  // Handle batch download
+  if (selectedOption === 'batch') {
+    const batchUrlsTextarea = document.getElementById('batch-urls') as HTMLTextAreaElement;
+    const urlsText = batchUrlsTextarea?.value.trim() || '';
+    
+    if (!urlsText) {
+      alert('Please enter at least one URL');
+      return;
+    }
+    
+    const urls = parseBatchUrls(urlsText);
+    if (urls.length === 0) {
+      alert('No valid URLs found. Please check your input.');
+      return;
+    }
+    
+    await downloadBatchUrls(urls, btn);
+    return;
+  }
+  
+  // Handle single page or whole site download
+  const urlInput = document.querySelector('input[type="text"]') as HTMLInputElement;
   const url = removeTrailingSlash(urlInput?.value.trim());
-  console.log('输入的URL:', url); // 打印输入的URL
-  const downloadType = document.querySelector('input[name="downloadType"]:checked')?.value;
+  // console.log('输入的URL:', url);
+  console.log('Input URL:', url);
+  
+  if (!url) {
+    alert('Please enter a valid URL');
+    return;
+  }
   
   // 保存URL到localStorage
+  // Save URL to localStorage
   localStorage.setItem('lastDownloadedUrl', url);
   
   try {
     // 添加加载状态
+    // Add loading state
     const originalText = btn?.textContent;
-    console.log('下载开始:', url, '类型:', downloadType);
-    if (downloadType === 'full') {
+    // console.log('下载开始:', url, '类型:', selectedOption);
+    console.log('Download started:', url, 'type:', selectedOption);
+    
+    if (selectedOption === 'site') {
       // 整站下载
-      
+      // Whole site download
       btn.disabled = true;
-      btn.textContent = '下载中...';
+      // 下载中...
+      // Downloading...
+      btn.textContent = 'Downloading...';
       await crawlPage(url);
     } else {
       // 单页下载
+      // Single page download
       // 检查URL是否已存在
+      // Check if URL already exists
       const exists = await checkExist(url);
-      console.log('检查结果:', exists); // 打印检查结果
+      // console.log('检查结果:', exists);
+      console.log('Check result:', exists);
       if (exists) {
-        console.log(`URL ${url} 已存在，跳过下载`);
+        // console.log(`URL ${url} 已存在，跳过下载`);
+        console.log(`URL ${url} already exists, skipping download`);
         alert('This URL has already been downloaded');
-        return;
-      }
-      if (!url) {
-        alert('Please enter a valid URL');
         return;
       }
 
       btn.disabled = true;
-      btn.textContent = '下载中...';
+      // 下载中...
+      // Downloading...
+      btn.textContent = 'Downloading...';
 
       const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
       const response = await fetch(proxyUrl);
-      if (!response.ok) throw new Error(`HTTP错误: ${response.status}`);
+      // HTTP错误
+    // HTTP error
+    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
       
       const data = await response.json();
       if (data.contents) {
@@ -444,30 +727,38 @@ async function handleDownload(btn: any, retryCount = 1) {
     }
     
     // 更新文件列表
+    // Update file list
     await updateFileList();
     
     // 恢复按钮状态
+    // Restore button state
     btn.disabled = false;
     btn.textContent = originalText;
   } catch (error: any) {
-    console.error('下载失败:', error);
+    // console.error('下载失败:', error);
+    console.error('Download failed:', error);
     if (retryCount < 3) {
       retryCount++;
-      console.log(`下载失败，将在3秒后重试(第${retryCount}次)`);
+      // console.log(`下载失败，将在3秒后重试(第${retryCount}次)`);
+      console.log(`Download failed, will retry in 3 seconds (attempt ${retryCount})`);
       setTimeout(() => handleDownload(btn, retryCount), 3000);
       return;
     }
-    alert(`下载失败: ${error.message}`);
+    // 下载失败
+    // Download failed
+    alert(`Download failed: ${error.message}`);
     
     // 确保按钮状态恢复
+    // Ensure button state is restored
     if (btn) {
       btn.disabled = false;
-      btn.textContent = '下载';
+      btn.textContent = 'Start Download';
     }
   }
 }
 
 // 保存选中的文件
+// Save selected files
 const saveAllFiles = async () => {
   try {
     const db = await initDB();
@@ -475,7 +766,7 @@ const saveAllFiles = async () => {
     const store = transaction.objectStore('downloadedFiles');
     const request = store.getAll();
     
-    request.onsuccess = (event) => {
+    request.onsuccess = async (event) => {
       const files = event.target.result;
       const selectedFiles = files.filter(file => {
         const checkbox = document.querySelector(`.file-checkbox[data-id="${file.id}"]`);
@@ -483,11 +774,16 @@ const saveAllFiles = async () => {
       });
       
       if (selectedFiles.length === 0) {
-        alert('请至少选择一个文件');
+        // 请至少选择一个文件
+        // Please select at least one file
+        alert('Please select at least one file');
         return;
       }
       
-      selectedFiles.forEach(file => {
+      // Download files sequentially to avoid browser download limit (typically 10)
+      // Browsers limit simultaneous downloads, so we need to space them out
+      for (let i = 0; i < selectedFiles.length; i++) {
+        const file = selectedFiles[i];
         const blob = new Blob([file.content], { type: 'text/html' });
         const downloadUrl = URL.createObjectURL(blob);
         
@@ -497,22 +793,41 @@ const saveAllFiles = async () => {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        URL.revokeObjectURL(downloadUrl);
-      });
+        
+        // Revoke URL after a short delay to ensure download starts
+        setTimeout(() => {
+          URL.revokeObjectURL(downloadUrl);
+        }, 100);
+        
+        // Add delay between downloads to respect browser limits
+        // Wait longer for the first 10 to ensure they start, then shorter delays
+        if (i < selectedFiles.length - 1) {
+          const delay = i < 10 ? 300 : 200; // Longer delay for first 10 files
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+      }
       
-      alert(`已保存${selectedFiles.length}个文件`);
+      // 已保存${selectedFiles.length}个文件
+      // Saved ${selectedFiles.length} files
+      alert(`Saved ${selectedFiles.length} files`);
     };
     
     request.onerror = () => {
-      throw new Error('获取文件列表失败');
+      // 获取文件列表失败
+      // Failed to get file list
+      throw new Error('Failed to get file list');
     };
   } catch (error) {
-    console.error('保存选中的文件失败:', error);
-    alert(`保存选中的文件失败: ${error.message}`);
+    // console.error('保存选中的文件失败:', error);
+    console.error('Failed to save selected files:', error);
+    // 保存选中的文件失败
+    // Failed to save selected files
+    alert(`Failed to save selected files: ${error.message}`);
   }
 };
 
 // 批量转换所有文件为Markdown
+// Batch convert all files to Markdown
 function convertAllToMarkdown() {
   if (!confirm('Are you sure you want to convert all files to Markdown format?')) {
     return;
@@ -529,24 +844,34 @@ function convertAllToMarkdown() {
         const files = event.target.result;
         
         if (files.length === 0) {
-          alert('没有可转换的文件');
+          // 没有可转换的文件
+          // No files to convert
+          alert('No files to convert');
           return;
         }
         
-        var convert_size = 0
-        for (const file of files) {
-          // 只对HTML文件进行转换
-          if (!file.filename.endsWith('.html')) {
-            continue;
-          }
-          
-          await new Promise((resolve) => {
+        var convert_size = 0;
+        const htmlFiles = files.filter(file => file.filename.endsWith('.html'));
+        
+        // 只对HTML文件进行转换
+        // Only convert HTML files
+        for (const file of htmlFiles) {
+          await new Promise((resolve, reject) => {
             const getRequest = store.get(file.id);
             
             getRequest.onsuccess = (e) => {
               const f = e.target.result;
               if (!f) {
-                resolve();
+                resolve(undefined);
+                return;
+              }
+              
+              // Check if MD file already exists for this URL
+              const mdFilename = f.filename.replace('.html', '.md');
+              const existingMd = files.find(existingFile => existingFile.url === f.url && existingFile.filename === mdFilename);
+              if (existingMd) {
+                // Skip if already converted
+                resolve(undefined);
                 return;
               }
               
@@ -560,6 +885,7 @@ function convertAllToMarkdown() {
                 .replace(/<[^>]+>/g, '');
               
               // 创建新的MD文件记录而不是覆盖原文件
+              // Create new MD file record instead of overwriting original file
               const mdFile = {
                 url: f.url,
                 filename: f.filename.replace('.html', '.md'),
@@ -567,30 +893,43 @@ function convertAllToMarkdown() {
                 timestamp: new Date().toISOString()
               };
               const addRequest = store.add(mdFile);
-              addRequest.onsuccess = () => resolve();
-              addRequest.onerror = () => resolve();
-              convert_size = convert_size + 1
+              addRequest.onsuccess = () => {
+                convert_size++;
+                resolve(undefined);
+              };
+              addRequest.onerror = (err) => {
+                console.error('Failed to add MD file:', err);
+                resolve(undefined);
+              };
             };
             
-            getRequest.onerror = () => resolve();
+            getRequest.onerror = () => resolve(undefined);
           });
         }
         
-        updateFileList();
-        alert(`已成功转换${convert_size}个文件`);
+        await updateFileList();
+        // 已成功转换${convert_size}个文件
+        // Successfully converted ${convert_size} files
+        alert(`Successfully converted ${convert_size} files`);
       };
       
       request.onerror = () => {
-        throw new Error('获取文件列表失败');
+        // 获取文件列表失败
+        // Failed to get file list
+        throw new Error('Failed to get file list');
       };
     } catch (error) {
-      console.error('批量转换失败:', error);
-      alert(`批量转换失败: ${error.message}`);
+      // console.error('批量转换失败:', error);
+      console.error('Batch conversion failed:', error);
+      // 批量转换失败
+      // Batch conversion failed
+      alert(`Batch conversion failed: ${error.message}`);
     }
   })();
 }
 
 // 清空所有文件
+// Clear all files
 const clearAllFiles = async () => {
   if (!confirm('Are you sure you want to clear all downloaded files? This cannot be undone!')) {
     return;
@@ -599,14 +938,20 @@ const clearAllFiles = async () => {
   try {
     await clearDB();
     updateFileList();
-    alert('已清空所有文件');
+    // 已清空所有文件
+    // Cleared all files
+    alert('Cleared all files');
   } catch (error) {
-    console.error('清空文件失败:', error);
-    alert(`清空文件失败: ${error.message}`);
+    // console.error('清空文件失败:', error);
+    console.error('Failed to clear files:', error);
+    // 清空文件失败
+    // Failed to clear files
+    alert(`Failed to clear files: ${error.message}`);
   }
 };
 
 // 删除单个文件
+// Delete single file
 const deleteFile = async (event: any) => {
   event.stopPropagation();
   const target = event.target.closest('.delete-btn');
@@ -631,12 +976,17 @@ const deleteFile = async (event: any) => {
       };
       
       request.onerror = () => {
-        reject('删除文件失败');
+        // 删除文件失败
+        // Failed to delete file
+        reject('Failed to delete file');
       };
     });
   } catch (error) {
-    console.error('删除文件失败:', error);
-    alert(`删除文件失败: ${error}`);
+    // console.error('删除文件失败:', error);
+    console.error('Failed to delete file:', error);
+    // 删除文件失败
+    // Failed to delete file
+    alert(`Failed to delete file: ${error}`);
   }
 };
 
@@ -644,6 +994,7 @@ let fileListElement: any;
 document.addEventListener('DOMContentLoaded', () => {
   fileListElement = document.getElementById('fileList');
   // 从localStorage恢复URL
+  // Restore URL from localStorage
   const lastUrl = localStorage.getItem('lastDownloadedUrl');
   if (lastUrl) {
     const urlInput = document.querySelector('input[type="text"]');
@@ -657,6 +1008,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('clearAllBtn')?.addEventListener('click', clearAllFiles);
   document.getElementById('convertAllBtn')?.addEventListener('click', convertAllToMarkdown);
   // 按文件类型选择
+  // Select by file type
   document.querySelectorAll('input[name="fileType"]').forEach(radio => {
     radio.addEventListener('change', (e) => {
       const type = e.target.value;
@@ -680,6 +1032,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateFileList();
   
   // 使用事件委托处理删除按钮点击
+  // Use event delegation to handle delete button clicks
   document.getElementById('fileList')?.addEventListener('click', (event) => {
     const deleteBtn = event.target.closest('.delete-btn');
     if (deleteBtn) {

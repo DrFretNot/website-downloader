@@ -12,6 +12,7 @@ const {
 } = Astro.props;
 
 // 获取当前页面URL
+// Get current page URL
 const currentUrl = canonical || new URL(Astro.url.pathname, Astro.site).href;
 ---
 
@@ -25,14 +26,17 @@ const currentUrl = canonical || new URL(Astro.url.pathname, Astro.site).href;
 		<meta name="generator" content={Astro.generator} />
 		
 		<!-- 基础SEO标签 -->
+		<!-- Basic SEO Tags -->
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		<meta name="keywords" content={keywords} />
 		
 		<!-- 规范链接 -->
+		<!-- Canonical Link -->
 		{canonical && <link rel="canonical" href={canonical} />}
 		
 		<!-- Open Graph协议 -->
+		<!-- Open Graph Protocol -->
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content="website" />
@@ -42,6 +46,7 @@ const currentUrl = canonical || new URL(Astro.url.pathname, Astro.site).href;
 		<meta property="og:locale" content="en_US" />
 		
 		<!-- Twitter卡片 -->
+		<!-- Twitter Card -->
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
@@ -49,16 +54,19 @@ const currentUrl = canonical || new URL(Astro.url.pathname, Astro.site).href;
 		<meta name="twitter:site" content="@sitedowner" />
 		
 		<!-- 搜索引擎优化 -->
+		<!-- Search Engine Optimization -->
 		<meta name="robots" content="index, follow" />
 		<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 		<meta name="google" content="notranslate" />
 		
 		<!-- 性能优化 -->
+		<!-- Performance Optimization -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link rel="preconnect" href="https://cdnjs.cloudflare.com">
 		
 		<!-- CSS和字体 -->
+		<!-- CSS and Fonts -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 		
 		<!-- Google Analytics -->
@@ -73,6 +81,7 @@ const currentUrl = canonical || new URL(Astro.url.pathname, Astro.site).href;
 		</script>
 		
 		<!-- JSON-LD结构化数据 -->
+		<!-- JSON-LD Structured Data -->
 		<script type="application/ld+json">
 		  {
 		    "@context": "https://schema.org",

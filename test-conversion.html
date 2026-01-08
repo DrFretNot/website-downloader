@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML to Markdown Conversion Test</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .panel {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        pre {
+            background: #fff;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            border: 1px solid #ddd;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>HTML to Markdown Conversion Test</h1>
+    <p>This demonstrates the conversion logic used in SiteDowner.</p>
+    
+    <div class="container">
+        <div class="panel">
+            <h2>Original HTML</h2>
+            <pre id="htmlContent"><h1>Welcome to Example Site</h1>
+<p>This is a paragraph with some <a href="https://example.com">link text</a>.</p>
+<h2>Section Title</h2>
+<p>Another paragraph with an <img src="https://example.com/image.jpg" alt="Example"> image.</p>
+<h3>Subsection</h3>
+<p>More content here.</p></pre>
+        </div>
+        
+        <div class="panel">
+            <h2>Converted Markdown</h2>
+            <pre id="markdownContent">Click "Convert" to see the result</pre>
+        </div>
+    </div>
+    
+    <button onclick="convert()">Convert HTML to Markdown</button>
+    
+    <script>
+        // This is the same conversion logic used in downer.astro
+        function convertHTMLToMarkdown(html) {
+            let markdown = html
+                .replace(/<h1[^>]*>(.*?)<\/h1>/g, '# $1\n\n')
+                .replace(/<h2[^>]*>(.*?)<\/h2>/g, '## $1\n\n')
+                .replace(/<h3[^>]*>(.*?)<\/h3>/g, '### $1\n\n')
+                .replace(/<p[^>]*>(.*?)<\/p>/g, '$1\n\n')
+                .replace(/<a href="([^"]*)"[^>]*>(.*?)<\/a>/g, '[$2]($1)')
+                .replace(/<img[^>]*src="([^"]*)"[^>]*>/g, '![]($1)')
+                .replace(/<[^>]+>/g, '');
+            
+            // Clean up extra whitespace
+            markdown = markdown.replace(/\n{3,}/g, '\n\n').trim();
+            
+            return markdown;
+        }
+        
+        function convert() {
+            const html = document.getElementById('htmlContent').textContent;
+            const markdown = convertHTMLToMarkdown(html);
+            document.getElementById('markdownContent').textContent = markdown;
+        }
+        
+        // Auto-convert on load
+        window.addEventListener('DOMContentLoaded', convert);
+    </script>
+</body>
+</html>
+
